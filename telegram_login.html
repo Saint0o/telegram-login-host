@@ -23,10 +23,17 @@
     </script>
 
     <script>
-      function onTelegramAuth(user) {
-        alert("Привет, " + user.first_name);
-        console.log(user);
-      }
-    </script>
+  function onTelegramAuth(user) {
+    if (window.TelegramLoginWidget) {
+      TelegramLoginWidget.postMessage(JSON.stringify(user));
+    } else if (window.parent !== window) {
+      window.parent.postMessage(JSON.stringify(user), "*");
+    } else {
+      alert("Telegram user: " + user.first_name);
+      console.log(user);
+    }
+  }
+</script>
+
   </body>
 </html>
